@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "DeleteAdminAccount";
+}
+
+<h2>DeleteAdminAccount</h2>
+
+@{ 
+    if (ViewBag.DeleteAdmin)
+    {
+        <h4>管理員帳號已刪除</h4>
+        <p><a class="btn btn-default" href="../../">回首頁</a></p>
+    }
+    else
+    {
+        <h4>管理員帳號刪除失敗</h4>
+    }
+}

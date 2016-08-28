@@ -1,0 +1,168 @@
+﻿@model IEnumerable<DigitalLearningExamingSystem.Models.Exam>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>題庫</h2>
+
+<p>
+
+    @using (Html.BeginForm("Index", "Exams", FormMethod.Get, new { @class = "form-inline" }))
+    {
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">題庫選項與篩選器</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        @{ 
+                            if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                            {
+                                @Html.ActionLink("建立新題目", "Create", null, new { @class = "btn btn-success" })
+                            }
+                        }
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <div class="form-group">
+                            <div class="input-group input-group-sm">
+                                <div class="input-group-addon">科目</div>
+                                @Html.DropDownList("questionsSubject", null, "全部", new { @class = "form-control " })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-addon">題目關鍵字</div>
+                            @Html.TextBox("SearchString", null, new { @class = "form-control" })
+                            <span class="input-group-btn">
+                                <input class="btn btn-primary" type="submit" value="篩選" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</p>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">題庫</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Question)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.FromTeacher)
+                    </th>*@
+                @{ 
+                    if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.Answer)
+                        </th>
+                    }
+                }
+                <th>
+                    @Html.DisplayNameFor(model => model.Choice1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Choice2)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Choice3)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Choice4)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.SolveTimes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CorrectTimes)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CoreectRate)
+                    </th>*@
+
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Question)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.FromTeacher)
+                        </td>*@
+                    @{ 
+                        if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Answer)
+                            </td>
+                        }
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Choice1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Choice2)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Choice3)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Choice4)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.SolveTimes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CorrectTimes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CoreectRate)
+                        </td>*@
+
+                    <td>
+                        <div class="btn-group btn-group-xs" role="group">
+                            @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn btn-success" })
+                            @{
+                                if (item.FromTeacher == User.Identity.Name && User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                                {
+                                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                }
+                            }
+
+
+
+                        </div>
+                    </td>
+                </tr>
+                                }
+
+        </table>
+    </div>
+</div>

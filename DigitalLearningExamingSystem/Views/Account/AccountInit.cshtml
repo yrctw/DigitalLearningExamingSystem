@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "AccountInit";
+}
+
+<h2>AccountInit</h2>
+
+@{ 
+    if (ViewBag.AccountInitSucceeded == 1)
+    {
+        <h2>管理員帳號已建立</h2><hr/>
+        <h4>帳號名稱：admin@admin.com</h4>
+        <h4>密碼：000000</h4>
+        <p>您可以在登入之後更換此管理員的密碼</p>
+
+        <p><a class="btn btn-default" href="../">登入</a></p>
+    }
+    else if (ViewBag.AccountInitSucceeded == 2)
+    {
+        <h3>管理員帳號權限設定失敗</h3><hr />
+        <h4>@ViewBag.AccountInitSucceededError</h4>
+    }
+    else
+    {
+        <h3>管理員帳號建立失敗</h3><hr />
+        <h4>@ViewBag.AccountInitSucceededError</h4>
+    }
+}

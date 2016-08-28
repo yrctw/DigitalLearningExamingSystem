@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "ChangeRole";
+}
+
+<h2>變更使用者身分</h2><hr>
+<p>
+    @if (ViewBag.ChangeRoleIsSucceed == 0)
+    {
+        <h4>身分變更已完成</h4>
+    }
+    else
+    {
+        <h4>身分變更失敗</h4>
+        
+    }
+
+</p>
+<hr>
+<p><a class="btn btn-default" href="/Account/ChangeUsersRole">確定</a></p>
+
+

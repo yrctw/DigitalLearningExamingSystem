@@ -1,0 +1,99 @@
+﻿@model IEnumerable<DigitalLearningExamingSystem.Models.Exampaper>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>考卷庫</h2>
+
+<p>
+    @{
+        if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        {
+            @Html.ActionLink("建立新考卷", "Create", null, new { @class = "btn btn-success" })
+        }
+    }
+</p>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">考卷</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ExampapaerName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TeacherId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Subject)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Num)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MeanGrade)
+                </th>
+                <th>
+                    題數
+                    @*@Html.DisplayNameFor(model => model.QuestionIds)*@
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExampapaerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TeacherId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Num)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MeanGrade)
+                    </td>
+                    <td>
+                        @{
+                            string qids = item.QuestionIds;
+                            string[] qidsArr = qids.Split(',');
+                            @qidsArr.Length;
+                        }
+                        @*@Html.DisplayFor(modelItem => item.QuestionIds)*@
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-xs" role="group">
+                            @Html.ActionLink("詳細資料", "Details", new { id = item.Id }, new { @class = "btn btn-success" })
+                            @Html.ActionLink("顯示考卷", "ShowExamPaper", new { id = item.Id }, new { @class = "btn btn-primary" })
+                            @if (User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("顯示答案卷", "ShowExamPaperWithAnswer", new { id = item.Id }, new { @class = "btn btn-info" })
+                            }
+                            @{
+                                if (item.TeacherId == User.Identity.Name && User.IsInRole("Teacher") || User.IsInRole("Admin"))
+                                {
+                                    @Html.ActionLink("編輯", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })
+                                    @Html.ActionLink("刪除", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                }
+                            }
+
+
+
+                        </div>
+
+                    </td>
+                </tr>
+                                }
+
+        </table>
+    </div>
+</div>

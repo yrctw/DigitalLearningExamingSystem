@@ -1,0 +1,29 @@
+﻿@model DigitalLearningExamingSystem.Models.Exampaper
+@{
+    ViewBag.Title = "ShowExamPaperWithAnswer";
+}
+
+<h2>@Model.ExampapaerName (答案卷)</h2>
+<hr>
+
+<h5>出卷老師：@Model.TeacherId</h5>
+<h5>科目：@Model.Subject</h5>
+<h5>
+    題數：
+    @{
+        string qids = Model.QuestionIds;
+        string[] qidsArr = qids.Split(',');
+        @qidsArr.Length;
+    }
+    題
+</h5>
+<hr>
+@{
+    int count = 1;
+
+    foreach (var ques in ViewBag.examPaperList)
+    {
+        <h4>( @ques.Answer )　@count.　@ques.Question<br />　　　　　 (1)@ques.Choice1 (2)@ques.Choice2 (3)@ques.Choice3 (4)@ques.Choice4 </h4>
+        count++;
+    }
+}

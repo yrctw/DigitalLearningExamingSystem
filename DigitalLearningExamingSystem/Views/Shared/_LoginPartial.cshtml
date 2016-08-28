@@ -1,0 +1,39 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @{ 
+                if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("管理員 " + User.Identity.GetUserName() + " 您好！", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                }
+                else if (User.IsInRole("Teacher"))
+                {
+                    @Html.ActionLink("" + User.Identity.GetUserName() + " 老師您好！", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                }
+                else if (User.IsInRole("Student"))
+                {
+                    @Html.ActionLink("" + User.Identity.GetUserName() + " 同學您好！", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                }
+                else
+                {
+                    @Html.ActionLink("尚未指派身分的使用者 " + User.Identity.GetUserName() + " 您好！", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                }
+            }
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">登出</a></li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("註冊", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("登入", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

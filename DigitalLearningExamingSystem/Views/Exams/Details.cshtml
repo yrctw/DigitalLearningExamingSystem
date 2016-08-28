@@ -1,0 +1,107 @@
+﻿@model DigitalLearningExamingSystem.Models.Exam
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Exam</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Question)
+        </dd>
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Answer)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Answer)
+            </dd>
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.Choice1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Choice1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Choice2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Choice2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Choice3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Choice3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Choice4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Choice4)
+        </dd>
+        @if (User.IsInRole("Admin") || User.IsInRole("Teacher"))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.SolveTimes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SolveTimes)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CorrectTimes)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CorrectTimes)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CoreectRate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CoreectRate)
+            </dd>
+
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @*@Html.ActionLink("編輯考卷題目", "EditQuestion", new { id = Model.Id }) |*@
+    <div class="btn-group " role="group">
+        @if ( User.IsInRole("Admin") || User.IsInRole("Teacher") && Model.FromTeacher == User.Identity.Name)
+        {
+            @Html.ActionLink("編輯題目","Edit", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        }
+        @Html.ActionLink("回題庫","Index",null, new { @class = "btn btn-success" })
+    </div>
+</p>

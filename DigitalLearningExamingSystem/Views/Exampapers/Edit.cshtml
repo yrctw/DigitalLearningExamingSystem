@@ -1,0 +1,184 @@
+﻿@model DigitalLearningExamingSystem.Models.Exampaper
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Exampaper</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ExampapaerName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ExampapaerName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ExampapaerName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.TeacherId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TeacherId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TeacherId, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subject, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subject, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Subject, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Num, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Num, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Num, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MeanGrade, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MeanGrade, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MeanGrade, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuestionIds, htmlAttributes: new { @class = "control-label col-md-2", style = "display:none" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QuestionIds, new { htmlAttributes = new { @class = "form-control", style = "display:none" } })
+                @Html.ValidationMessageFor(model => model.QuestionIds, "", new { @class = "text-danger", style = "display:none" })
+            </div>
+        </div>
+        <hr>
+        @try
+        {
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">請自題庫勾選您需要的題目</h3>
+                </div>
+                <div class="panel-body">
+
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                勾選
+                            </th>
+                            <th>
+                                題目編號
+                            </th>
+                            <th>
+                                科目
+                            </th>
+                            <th>
+                                題目
+                            </th>
+                            <th>
+                                出題老師
+                            </th>
+                            <th>
+                                答案
+                            </th>
+                            <th>
+                                答案選項1
+                            </th>
+                            <th>
+                                答案選項2
+                            </th>
+                            <th>
+                                答案選項3
+                            </th>
+                            <th>
+                                答案選項4
+                            </th>
+
+                        </tr>
+
+                        @foreach (var item in ViewBag.examList)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="@item.Id" name="CheckBoxQuestions" value="@item.Id" onclick="GetCheckedValue()" />
+                                </td>
+                                <td>
+                                    @item.Id
+                                </td>
+                                <td>
+                                    @item.Subject
+                                </td>
+                                <td>
+                                    @item.Question
+                                </td>
+                                <td>
+                                    @item.FromTeacher
+                                </td>
+                                <td>
+                                    @item.Answer
+                                </td>
+                                <td>
+                                    @item.Choice1
+                                </td>
+                                <td>
+                                    @item.Choice2
+                                </td>
+                                <td>
+                                    @item.Choice3
+                                </td>
+                                <td>
+                                    @item.Choice4
+                                </td>
+
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+        catch
+        { }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+    var orgQuesList = $("#QuestionIds").val();
+    var orgQuesArray = orgQuesList.split(",")
+    for (i = 0; i < orgQuesArray.length; ++i)
+    {
+        var cbxId = "#"+orgQuesArray[i];
+        $(cbxId).attr("checked", true);
+    }
+    function GetCheckedValue() {
+        var valuelist = '';
+        $('input[type=checkbox][name=CheckBoxQuestions]').each(function () {
+            if (this.checked) {
+                valuelist += $(this).val() + ",";
+    }
+    });
+        if (valuelist.length > 0) {
+            valuelist = valuelist.substring(0, valuelist.length - 1);
+    }
+        $("#QuestionIds").val(valuelist);
+    }
+</script>
